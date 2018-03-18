@@ -15,12 +15,22 @@ class Course(models.Model):
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # Attach validation rules method
+    objects = CourseManager()
 
     def __repr__(self):
-        return "<Object Course, name: {}".format(self.name)
+        return "<Course: {}".format(self.name)
 
 class Description(models.Model):
     description = models.TextField()
-    course = models.OneToOneField(Course, on_delete=models.CASCADE)
+    #Create relationship one to one. One course can have only one description
+    course = models.OneToOneField(Course, on_delete=models.CASCADE, related_name="description")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Comment(models.Model):
+    comment = models.TextField()
+    # Create relationship one to many with course. One course can have many comments
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="comments")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -5,10 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Courses</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
     {% load static %}
     <link rel="stylesheet" href="{% static 'courses/css/style.css' %}">
 </head>
 <body>
-    
+    <div class="container addcourse">
+        <h1>Add a new course</h1>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="alert-danger {{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form action="/courses/create" method="post">
+            {% csrf_token %}
+            <div class="form-inline form-group ">
+                <label for="inputname">Course</label>
+                <input name="course" type="text" id="inputname" class="form-control mx-sm-3" aria-describedby="nameHelpInline">
+                <small id="nameHelpInline" class="text-muted">
+                    Must be at least 5 characters long.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <small id="helpDescription" class="text-muted">
+                        Must be at least 15 characters long.
+                    </small>
+                <textarea name="description" id="description" class="form-control" cols="10" rows="3" aria-describedby="helpDescription"></textarea>
+            </div>
+            
+            <input type="submit" value="Add new course" class="btn btn-primary">
+           
+        </form>
+    </div> <!-- addcourse -->
+    <div class="container display">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-center">ID #</th>
+                    <th scope="col">Course</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date added</th>
+                    <th scope="col" class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <th scope="row">{{ course.id }}</th>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.description.description }}</td>
+                    <td>{{ course.created_at }}</td>
+                    <td class="text-center"><a href="/courses/destroy/{{course.id}}">Remove</a></td>
+                </tr>
+                {% endfor %}
+              
+            </tbody>
+          </table>
+    </div><!-- display -->
 </body>
 </html>

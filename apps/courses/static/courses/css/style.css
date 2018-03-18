@@ -1,3 +1,6 @@
+body{
+    margin: 10px;
+}
 .error{
     color: red;
     font-family: Arial, Helvetica, sans-serif;
@@ -8,4 +11,13 @@
     color: green;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 26px;
+}
+
+.addcourse{
+    width: 500px;
+}
+
+.display{
+    margin-top: 20px;
+    width: 700px;
 }
